@@ -7,12 +7,10 @@
 RF24 radio(7, 8);
 
 // Use the same address for both devices
-uint8_t address[] = { "radio" };
+uint8_t address[] = { "flash" };
 
-// Simple messages to represent a 'ping' and 'pong'
-uint8_t ping = 111;
-
-volatile uint32_t round_trip_timer = 0;
+// Some fake payload
+uint8_t payload = 0;
 
 void setup() {
     radio.begin();
@@ -20,11 +18,10 @@ void setup() {
     radio.enableDynamicPayloads();
     radio.openWritingPipe(address);// communicate back and forth.    One listens on it, the other talks to it.
     radio.openReadingPipe(1, address);
-    attachInterrupt(0, check_radio, LOW);// Attach interrupt handler to interrupt #0 (using pin 2) on BOTH the sender and receiver
 }
 
 void loop() {
-    if () {
-        radio.startWrite( &ping, sizeof(uint8_t), 0 );
+    if (1) {
+        radio.startWrite( &payload, sizeof(uint8_t), 0 );
     }
 }
