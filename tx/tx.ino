@@ -1,27 +1,31 @@
 #include <SPI.h>
 #include "RF24.h"
-#include <printf.h>
+#include <PinChangeInt.h>
 
 // Hardware configuration
-// Set up nRF24L01 radio on SPI bus plus pins 7 & 8
+// CE on 7, CSN on 8
 RF24 radio(7, 8);
 
 // Use the same address for both devices
 uint8_t address[] = { "flash" };
 
 // Some fake payload
-uint8_t payload = 0;
+boolean payload = false;
 
 void setup() {
     radio.begin();
     // Use dynamic payloads to improve response time
     radio.enableDynamicPayloads();
-    radio.openWritingPipe(address);// communicate back and forth.    One listens on it, the other talks to it.
-    radio.openReadingPipe(1, address);
+    radio.openWritingPipe(address);
+    pinMode(4, INPUT_PULLUP);
+    attachPinChangeInterrupt(4, trigger, FALLING);
 }
 
 void loop() {
-    if (1) {
-        radio.startWrite( &payload, sizeof(uint8_t), 0 );
-    }
+  // Do nothing but wait for interruption
 }
+
+void trigger(){
+    radio.write(&payload, sizeof(boolean));
+}
+
