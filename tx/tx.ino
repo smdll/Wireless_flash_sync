@@ -10,7 +10,7 @@ RF24 radio(7, 8);
 uint8_t address[] = { "flash" };
 
 // Some fake payload
-boolean payload = false;
+const byte payload = 13;
 
 void setup() {
     radio.begin();
@@ -26,6 +26,6 @@ void loop() {
 }
 
 void trigger(){
-    radio.write(&payload, sizeof(boolean));
+    radio.write(&payload, 1);
 }
 
